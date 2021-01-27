@@ -7,24 +7,28 @@ function get_val($id){
 	    global $vals;
 	        return $vals[$id];
 }
-function print_exam($student_id, $student_name, $problems){
+function print_exam($student_id, $student_name, $problems, &$summary){
 	    include __DIR__.'/../modules/header.php';
-
-	        $qid = 1;
-	        foreach($problems as $problem){
-			        include __DIR__."/../modules/$problem";
-				        $qid++;
-				    }
-		    include __DIR__.'/../modules/footer.php';
+		$student_report = array();
+		$qid = 1;
+		foreach($problems as $problem){
+			$report = array("qid"=>$qid);
+			srand(crc32("$student_id.$student_name.$problem.$qid"));
+			include __DIR__."/../modules/$problem";
+			$student_report[] = $report;
+			$qid++;
+		}
+		include __DIR__.'/../modules/footer.php';
+		$summary["$student_id:$student_name"] = $student_report;
 }
 
-function print_exams($students, $problems){
+function print_exams($students, $problems, &$summary){
 	    foreach($students as $student_id => $student_name){
-		            ob_start();
-			            print_exam($student_id, $student_name, $problems);
-			            file_put_contents("$student_id.tex", ob_get_contents());
-				            ob_end_clean();
-				        }
+			ob_start();
+			print_exam($student_id, $student_name, $problems, $summary);
+			file_put_contents("$student_id.tex", ob_get_contents());
+			ob_end_clean();
+		}
 }
 
 ?>
