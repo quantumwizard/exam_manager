@@ -9,6 +9,6 @@ $summary = array();
 
 print_exams($students, $problems, $summary);
 
-print_r(json_encode(($summary)));
+print_summary($summary)
 
 ?>

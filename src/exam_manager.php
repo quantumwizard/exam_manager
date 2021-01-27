@@ -12,7 +12,7 @@ function print_exam($student_id, $student_name, $problems, &$summary){
 		$student_report = array();
 		$qid = 1;
 		foreach($problems as $problem){
-			$report = array("qid"=>$qid);
+			$report = array("problem"=>$qid, "module"=>$problem);
 			srand(crc32("$student_id.$student_name.$problem.$qid"));
 			include __DIR__."/../modules/$problem";
 			$student_report[] = $report;
@@ -31,5 +31,10 @@ function print_exams($students, $problems, &$summary){
 		}
 }
 
+function print_summary($summary){
+	$output = json_encode($summary, JSON_PRETTY_PRINT);
+	file_put_contents("summary.json", $output);
+	print($output);
+}
 ?>
 
