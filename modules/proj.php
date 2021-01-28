@@ -1,9 +1,10 @@
 <?php
   $speed = rand(5, 25);
   $height = rand(5, 25);
+  $timeEnd = sqrt(2*$height/9.8);
   $report["speed"] = $speed;
   $report["height"] = $height;
-  $report["timeToHitBottom"] = sqrt(2*$height/9.8);
+  $report["timeEnd"] = $timeEnd;
 ?>
 
 \item  (20 points)  <?= $student_name ?> is frustrated and throws their textbook from a window.
@@ -15,3 +16,10 @@
 		\item  How far does it go horizontally?
 		\item  What is the book's velocity right before it hits the ground?
 		\end{enumerate}
+
+<?php if ($is_solution) {  ?>
+
+{\bf Solution: } Starting from $$ y = y_0 + v_0 t + 1/2 a t^2 $$
+  we get $$ t = \sqrt{\frac{2h}{g}} = \sqrt{\frac{2 <?= $height ?>}{g}} = <?= $timeEnd ?> $$
+
+<?php } ?>
