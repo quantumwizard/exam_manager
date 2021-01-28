@@ -1,11 +1,11 @@
 <?php
 include '../../src/exam_manager.php';
 
-$students = array(1234=>"Steve Rogers", 4321=>"Tony Stark");
+$students = array(1234=>"Steven Rogers", 4321=>"Tony Stark");
 
 $problems = array(
     '/length/',
-    'proj.php'
+    '/projectile/'
 );
 
 $summary = array();
