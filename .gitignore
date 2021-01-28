@@ -1,2 +1,5 @@
 *.tex
 *.json
+*.log
+*.aux
+*.pdf
