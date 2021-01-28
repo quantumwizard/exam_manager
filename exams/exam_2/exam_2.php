@@ -3,7 +3,10 @@ include '../../src/exam_manager.php';
 
 $students = array(1234=>"Steve Rogers", 4321=>"Tony Stark");
 
-$problems = array('proj.php');
+$problems = array(
+    '/length/',
+    'proj.php'
+);
 
 $summary = array();
 

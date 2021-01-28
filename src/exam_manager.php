@@ -1,18 +1,34 @@
 <?php
 
-function set_val($id, $val){
-	    return $val;
+function random_module($regex){
+	$modules = array();
+	$dir = new DirectoryIterator(__DIR__."/../modules");
+	foreach ($dir as $fileinfo) {
+		if (!$fileinfo->isDot()) {
+			$fname = $fileinfo->getFilename();
+			$path = $fileinfo->getPathname();
+			if (preg_match($regex, $fname) || 
+				preg_match($regex, file_get_contents($path))){
+					$modules[] = $fname;
+			}
+		}
+	}
+	$num = count($modules);
+	if ($num==0){
+		throw new Exception("No modules match $regex");
+	}
+	return $modules[rand(0,$num-1)];
 }
-function get_val($id){
-	    global $vals;
-	        return $vals[$id];
-}
+
 function print_exam($student_id, $student_name, $problems, &$summary, $is_solution){
 	    include __DIR__.'/../modules/header.php';
 		$student_report = array();
 		$qid = 1;
 		$tag = array();
 		foreach($problems as $problem){
+			if (preg_match('/\/.*\//', $problem)){
+				$problem = random_module($problem);
+			}
 			$report = array("problem"=>$qid, "module"=>$problem);
 			srand(crc32("$student_id.$student_name.$problem.$qid"));
 			include __DIR__."/../modules/$problem";
@@ -27,8 +43,10 @@ function print_exams($students, $problems, &$summary){
 	    foreach($students as $student_id => $student_name){
 			ob_start();
 			print_exam($student_id, $student_name, $problems, $summary, False);
-			file_put_contents("$student_id.tex", ob_get_contents());
+			$fname = "$student_id.exam.tex";
+			file_put_contents($fname, ob_get_contents());
 			ob_end_clean();
+			shell_exec("pdflatex  -interaction=batchmode $fname");
 		}
 }
 
@@ -36,8 +54,10 @@ function print_solutions($students, $problems, &$summary){
 	    foreach($students as $student_id => $student_name){
 			ob_start();
 			print_exam($student_id, $student_name, $problems, $summary, True);
-			file_put_contents("$student_id.solution.tex", ob_get_contents());
+			$fname = "$student_id.solution.tex";
+			file_put_contents($fname, ob_get_contents());
 			ob_end_clean();
+			shell_exec("pdflatex -interaction=batchmode $fname");
 		}
 }
 

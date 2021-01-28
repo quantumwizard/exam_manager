@@ -9,5 +9,5 @@ $report['width'] = $width;
 $report['area'] = $area;
 
 ?>
-
-<?= $qid ?>. What is the area of a rectangle of length <?= $length ?> and width <?= $width ?> ?
+\item  (20 points)
+What is the area of a rectangle of length <?= $length ?> and width <?= $width ?> ?

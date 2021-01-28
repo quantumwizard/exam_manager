@@ -7,11 +7,11 @@ $volume = $length * $width * $height;
 
 $report['length'] = $length;
 $report['width'] = $width;
-$report['height'] = $area;
+$report['height'] = $height;
 $report['volume'] = $volume;
 
 ?>
-
-<?= $qid ?>. What is the volume of a box of length <?= $length ?> and width <?= $width ?> and height <?= $height ?>?
+\item  (20 points)
+What is the volume of a box of length <?= $length ?> and width <?= $width ?> and height <?= $height ?>?
 
 
