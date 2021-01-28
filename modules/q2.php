@@ -1,4 +1,6 @@
 <?php 
+//add description tags
+$keywords = 'volume box math easy grade2 raycruz';
 //define variables
 $length = rand(12,24);
 $width = rand(5,10);

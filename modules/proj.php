@@ -1,13 +1,19 @@
 <?php
+//add description tags
+  $keywords = 'physics projectile intro easy freshman jkintner';
+
+//varables
   $speed = rand(5, 25);
   $height = rand(5, 25);
   $timeEnd = sqrt(2*$height/9.8);
+
+//make report
   $report["speed"] = $speed;
   $report["height"] = $height;
   $report["timeEnd"] = $timeEnd;
 ?>
 
-\item  (20 points)  <?= $student_name ?> is frustrated and throws their textbook from a window.
+\item  (<?= $point_value ?> points)  <?= $student_name ?> is frustrated and throws their textbook from a window.
 	If the initial velocity of the book is <?= $speed ?> m/s horizontally, and the window is <?= $height ?>m above ground:
 	(Ignore air resistance.)
 
