@@ -9,7 +9,7 @@
   $report["dist"] = $dist;
 ?>
 
-\item (10 points) A car starts from rest and accelerates uniformly at a rate of <?= $acc ?>m/s$^2$
+\item (<?= $point_value ?> points) A car starts from rest and accelerates uniformly at a rate of <?= $acc ?>m/s$^2$
   due North over a time of <?= $time ?>s.
 
 	\begin{enumerate}

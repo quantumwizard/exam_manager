@@ -1,4 +1,4 @@
-<?php 
+<?php
 //add description tags
 $keywords = 'volume box math easy grade2 raycruz';
 //define variables
@@ -13,7 +13,5 @@ $report['height'] = $height;
 $report['volume'] = $volume;
 
 ?>
-\item  (20 points)
+\item  (<?= $point_value ?> points)
 What is the volume of a box of length <?= $length ?> and width <?= $width ?> and height <?= $height ?>?
-
-
