@@ -1,13 +1,9 @@
 <?php
 include '../../src/exam_manager.php';
 
-<<<<<<< HEAD
-$students = array(1234=>"Steven Rogers", 4321=>"Tony Stark");
-=======
 fixed_order();
 
 $students = array(1234=>"Steve Rogers", 4321=>"Tony Stark");
->>>>>>> master
 
 $problems = array(
     array(10, '/(?=.*?(area))(?=.*?(raycruz))/is'),
