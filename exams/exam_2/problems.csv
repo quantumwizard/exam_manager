@@ -1,0 +1,4 @@
+    10, "/(?=.*?(area))(?=.*?(raycruz))/is"
+    20, "/proj.php|q2.php/"
+    30, "/jkintner/"
+    10, "/raycruz|jkintner/"
