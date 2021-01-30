@@ -22,11 +22,14 @@ function search_keywords($regex, $fname){
 	ob_end_clean();
 	return preg_match($regex, $keywords);
 }
-function select_modules($regex){
+function select_modules($regex, $used_modules){
 	$modules = array();
 	$dir = new DirectoryIterator(__DIR__."/../modules");
 	foreach ($dir as $fileinfo) {
 		$fname = $fileinfo->getFilename();
+		if (in_array($fname, $used_modules)){
+			continue;
+		}
 		if (!$fileinfo->isDot() and !preg_match('/header|footer/', $fname))  {
 			$fname = $fileinfo->getFilename();
 			$path = $fileinfo->getPathname();
@@ -38,11 +41,11 @@ function select_modules($regex){
 	}
 	return $modules;
 }
-function random_module($regex){
-	$modules = select_modules($regex);
+function random_module($regex, $used_modules){
+	$modules = select_modules($regex, $used_modules);
 	$num = count($modules);
 	if ($num==0){
-		throw new Exception("No modules match $regex");
+		throw new Exception("No unused modules match $regex");
 	}
 	return $modules[rand(0,$num-1)];
 }
@@ -60,12 +63,14 @@ function print_exam($student_id, $student_name, $problems, &$summary, $is_soluti
 			srand(crc32("$randseed.$student_id.$student_name"));
 			shuffle($problems);
 		}
+		$used_modules = array();
 		foreach($problems as $p){
 			$point_value = $p[0];
 			$problem = $p[1];
 			if (preg_match('/\/.*\//', $problem)){
-				$problem = random_module($problem);
+				$problem = random_module($problem, $used_modules);
 			}
+			$used_modules[] = $problem;
 			$report = array("problem"=>$qid, "module"=>$problem, "point_value"=>$point_value);
 			srand(crc32("$randseed.$student_id.$student_name.$problem.$qid"));
 			print_problem($qid, $student_id, $student_name, $problem, $report, $point_value, $is_solution);
@@ -83,7 +88,11 @@ function print_exams_imp($students, $problems, $is_solution){
 		foreach($students as $student_id => $student_name){
 			ob_start();
 			print_exam($student_id, $student_name, $problems, $summary, $is_solution);
-			$fname = "$student_id.exam.tex";
+			if ($is_solution){
+				$fname = "$student_id.solution.tex";
+			 } else {
+				 $fname = "$student_id.exam.tex";
+			 } 	
 			file_put_contents($fname, ob_get_contents());
 			ob_end_clean();
 			shell_exec("pdflatex  -interaction=batchmode $fname");

@@ -1,6 +1,5 @@
 <?php
-  $tag["topic"] = "projectile";
-  $tag["difficulty"] = 2;
+  $keywords = 'physics kinematics intro easy freshman jkintner';
   $acc = rand(1, 5);
   $time = rand(2, 15);
   $dist =  .5* $acc * pow($time, 2);
