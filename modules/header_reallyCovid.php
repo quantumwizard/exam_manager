@@ -29,10 +29,17 @@
 \end{tabular}
 
 
-\centerline{<?= $exam_info['exam_id'] ?>}
-\centerline{<?= $exam_info['exam_date'] ?>}
-\centerline{make up exam}
-\centerline{ <?= $student['First name']." ".$student['Last name'] ?> }
+<?php if ($is_solution) {  ?>
+
+\centerline{Solution to <?= $exam_info["exam_id"] ?>}
+
+<?php } else { ?>
+\centerline{<?= $exam_info["exam_id"] ?>}
+
+<?php } ?>
+
+\centerline{<?= $exam_info["exam_date"] ?>}
+\centerline{ <?= $student["First name"] ?>  <?= $student["Last name"] ?> }
 
 
 \noindent Instructions:

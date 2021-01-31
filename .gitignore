@@ -2,5 +2,6 @@
 *.json
 *.log
 *.aux
-*.pdf
+exams
+solutions
 .DS_store

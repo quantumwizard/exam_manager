@@ -1,0 +1,5 @@
+point_value,regex
+10,"/(?=.*?(area))(?=.*?(raycruz))/is"
+20,"/inclineForce.php/"
+30,"/jkintner/"
+10,"/raycruz|jkintner/"
