@@ -15,21 +15,21 @@ $exam_data = array(
 // you can add students as an array in this file or import a csv file
 //columns "ID number" "First name" and "Last name" should be present.
 // $students = array(
-//     array('ID number'=>1234, 'First name'=>"Steve", 'Last name'=>"Rogers"), 
+//     array('ID number'=>1234, 'First name'=>"Steve", 'Last name'=>"Rogers"),
 //     array('ID number'=>4321, 'First name'=>"Tony",  'Last name'=>"Stark")
 //  );
-$students = import_csv('200825_sec01_names.csv');
-//$students = import_csv('students.csv');
+//$students = import_csv('200825_sec01_names.csv');
+$students = import_csv('students.csv');
 
 // you can add tex modules as an array in this file or import a csv file
 // first column = point value, second column = regular expression search on $keywords (and filenames)
-// $problems = import_csv('problems.csv');
-$problems = array(
-    array('point_value'=>10, 'regex'=>'/(?=.*?(area))(?=.*?(raycruz))/is'),
-    array('point_value'=>20, 'regex'=>'/proj.php|q2.php/'),
-    array('point_value'=>30, 'regex'=>'/jkintner/'),
-    array('point_value'=>10, 'regex'=>'/raycruz|jkintner/')
-);
+ $problems = import_csv('problems.csv');
+// $problems = array(
+//     array('point_value'=>10, 'regex'=>'/(?=.*?(area))(?=.*?(raycruz))/is'),
+//     array('point_value'=>20, 'regex'=>'/proj.php|q2.php/'),
+//     array('point_value'=>30, 'regex'=>'/jkintner/'),
+//     array('point_value'=>10, 'regex'=>'/raycruz|jkintner/')
+// );
 
 $headers = array(
     'header_reallyCovid.php'
