@@ -11,9 +11,10 @@
   $report["speed"] = $speed;
   $report["height"] = $height;
   $report["timeEnd"] = $timeEnd;
+
 ?>
 
-\item  (<?= $point_value ?> points)  <?= $student_name ?> is frustrated and throws their textbook from a window.
+\item  (<?= $point_value ?> points)  <?= $student["First name"] ?> is frustrated and throws their textbook from a window.
 	If the initial velocity of the book is <?= $speed ?> m/s horizontally, and the window is <?= $height ?>m above ground:
 	(Ignore air resistance.)
 

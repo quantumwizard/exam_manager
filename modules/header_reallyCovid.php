@@ -7,7 +7,7 @@
 \topmargin -.5in
 \textheight 9.5in
 \pagestyle{myheadings}
-\markright{\it \small Phys 10, Kintner, Exam 1}
+\markright{\it \small <?= $exam_info['course_id'] ?>, <?= $exam_info['teacher_name'] ?>, <?= $exam_info['exam_id'] ?>}
 \newcommand{\ts}{\textstyle}
 \begin{document}
 
@@ -25,14 +25,14 @@
 %\noindent\hfill NAME:\rule[0in]{2.5in}{.01in}
 
 \noindent \begin{tabular}{lp{5.0in}r}
-Physics 10 \hfill & & \hfill Fall 2020\\
+<?= $exam_info['course_id'] ?> \hfill & & \hfill <?= $exam_info['semester'] ?>\\
 \end{tabular}
 
 
-\centerline{Exam 1}
-\centerline{Friday, October 16, 2020}
+\centerline{<?= $exam_info['exam_id'] ?>}
+\centerline{<?= $exam_info['exam_date'] ?>}
 \centerline{make up exam}
-\centerline{ <?= $student_name ?> }
+\centerline{ <?= $student['First name']." ".$student['Last name'] ?> }
 
 
 \noindent Instructions:
