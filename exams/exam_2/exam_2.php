@@ -18,8 +18,8 @@ $exam_data = array(
 //     array('ID number'=>1234, 'First name'=>"Steve", 'Last name'=>"Rogers"), 
 //     array('ID number'=>4321, 'First name'=>"Tony",  'Last name'=>"Stark")
 //  );
-//$students = import_csv('200825_sec01_names.csv');
-$students = import_csv('students.csv');
+$students = import_csv('200825_sec01_names.csv');
+//$students = import_csv('students.csv');
 
 // you can add tex modules as an array in this file or import a csv file
 // first column = point value, second column = regular expression search on $keywords (and filenames)
@@ -49,8 +49,6 @@ $randseed = __FILE__;
 $summary1 = print_exams($exam_data, $students, $problems, $headers, $footers);
 
 $summary2 = print_solutions($exam_data, $students, $problems, $headers, $footers);
-
-print_summary($summary2, "summary");
 
 //sanity check
 if (json_encode($summary1)!=json_encode($summary2)){

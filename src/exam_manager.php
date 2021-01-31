@@ -120,7 +120,7 @@ function print_exam($exam_info, $student, $problems, $headers, $footers, &$summa
 		foreach ($footers as $footer){
 			include __DIR__."/../modules/$footer";
 		}
-		$summary["{$student["ID number"]}:{$student["Last name"]}"] = $student_report;
+		$summary[json_encode("{$student["ID number"]}:{$student["Last name"]}")] = $student_report;
 }
 
 function import_csv($fname){
@@ -163,39 +163,27 @@ function print_exams_imp($exam_info, $students, $problems, $headers, $footers, $
 			mkdir($output_dir);
 		}
 		foreach($students as $student){
-			//var_dump($student);
-			/*
-			if (!array_key_exists('Last name', $student)){
-				echo "Last name not found for ";
-				var_dump($student);
-				exit(1);
-			} else {
-				echo "Last name found.\n";
-			}
-			if (!array_key_exists('First name', $student)){
-				echo "First name not found for ";
-				//var_dump($student);
-				foreach ($student as $key => $val){
-					echo $key, ": ", $val ,"\n";
-				}
-				var_dump($student);
-				exit(1);
-			}
-			*/
 			$student_id = $student['ID number'];
 			$student_first = $student["First name"];
 			$student_last = $student['Last name'];
 			ob_start();
 			print_exam($exam_info, $student, $problems, $headers, $footers, $summary, $is_solution);
 			if ($is_solution){
-				$fname = "$output_dir/$student_first.$student_last.$student_id.solution.tex";
+				$fname = "$output_dir/$student_first.$student_last.$student_id.solution";
 			 } else {
-				 $fname = "$output_dir/$student_first.$student_last.$student_id.exam.tex";
-			 } 	
-			file_put_contents($fname, ob_get_contents());
+				 $fname = "$output_dir/$student_first.$student_last.$student_id.exam";
+			 }
+			 $fname = preg_replace('/\s|\'|"/', '', $fname);
+			 $fname = preg_replace('/[\x00-\x1F\x7F-\xFF]/', '', $fname);
+			file_put_contents($fname.".tex", ob_get_contents());
 			ob_end_clean();
 			shell_exec("pdflatex -output-directory $output_dir -interaction=batchmode $fname");
+			//check to make sure pdf was created
+			if (!file_exists($fname.".pdf")){
+				error_log("warning: $fname was not created!\n");
+			}
 		}
+		print_summary($summary, "$output_dir/summary.json");
 	} catch (Exception $e){
 		ob_end_clean();
 		echo "exception: ", $e->getMessage(), "\n";
