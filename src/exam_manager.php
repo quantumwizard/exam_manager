@@ -112,7 +112,7 @@ function print_exam($exam_info, $student, $problems, $headers, $footers, &$summa
 				$problem = random_module($problem, $used_modules);
 			}
 			$used_modules[] = $problem;
-			$report = array("problem"=>$qid, "module"=>$problem, "point_value"=>$point_value);
+			$report = array("problem_number"=>$qid, "filename"=>$problem, "point_value"=>$point_value);
 			srand(crc32($randseed.$student["ID number"].$problem.$qid));
 			print_problem($exam_info, $qid, $student, $problem, $report, $point_value, $is_solution);
 			//include __DIR__."/../modules/$problem";
@@ -122,7 +122,13 @@ function print_exam($exam_info, $student, $problems, $headers, $footers, &$summa
 		foreach ($footers as $footer){
 			include __DIR__."/../modules/$footer";
 		}
-		$summary[json_encode("{$student["ID number"]}:{$student["Last name"]}")] = $student_report;
+		$summary[] = array(
+			"ID number"=>$student["ID number"],
+			"First name"=>$student["First name"],
+			"Last name"=>$student["Last name"],
+			"exam_report"=>$student_report
+		);
+		//$summary[$student["ID number"].':'.$student["Last name"]] = $student_report;
 }
 
 function import_csv($fname){
