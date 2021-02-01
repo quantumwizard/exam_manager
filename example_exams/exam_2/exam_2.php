@@ -2,7 +2,7 @@
 include '../../src/exam_manager.php';
 
 //This data is made available to all the modules
-$exam_data = array(
+$exam_info = array(
     'teacher_name'=>"Prof. Kintner",
     'course_id'=>"PHYS 10",
     'section' => '1',
@@ -18,8 +18,8 @@ $exam_data = array(
 //     array('ID number'=>1234, 'First name'=>"Steve", 'Last name'=>"Rogers"),
 //     array('ID number'=>4321, 'First name'=>"Tony",  'Last name'=>"Stark")
 //  );
-//$students = import_csv('200825_sec01_names.csv');
-$students = import_csv('students.csv');
+$students = import_csv('200825_sec01_names.csv');
+//$students = import_csv('students.csv');
 
 // you can add tex modules as an array in this file or import a csv file
 // first column = point value, second column = regular expression search on $keywords (and filenames)
@@ -46,9 +46,9 @@ fixed_order();
 //A given $randseed should produce deterministic output for a given student
 $randseed = __FILE__;
 
-$summary1 = print_exams($exam_data, $students, $problems, $headers, $footers);
+$summary1 = print_exams($exam_info, $students, $problems, $headers, $footers);
 
-$summary2 = print_solutions($exam_data, $students, $problems, $headers, $footers);
+$summary2 = print_solutions($exam_info, $students, $problems, $headers, $footers);
 
 //sanity check
 if (json_encode($summary1)!=json_encode($summary2)){

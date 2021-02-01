@@ -6,12 +6,14 @@ $img_dir = __DIR__."/../modules/resources";
 
 $default_student = array('ID number'=>'8888', 'First name'=>'Jane', 'Last name'=>'Doe');
 $default_exam_info = array(
-    'teacher_name'=>"Professor",
-    'course_id'=>"Course ID",
-    'course_title'=>"Title",
-    'exam_date' => "TBD",
-    'exam_topic' => "topic",
-    'exam_id' => '1'
+    'teacher_name'=>"Prof. Kintner",
+    'course_id'=>"PHYS 10",
+    'section' => '1',
+    'course_title'=>"Intro Physics",
+    'exam_date' => "Jan 7, 2021",
+    'exam_topic' => "kinematics",
+    'exam_id' => 'Exam I',
+    'semester' => 'Spring 2021'
 );
 //might be useful for generating random floats in modules
 //generates random float between 0.0 and 1.0
@@ -65,12 +67,12 @@ function select_modules($regex, $used_modules){
 		if (in_array($fname, $used_modules)){
 			continue;
 		}
-		if (!$fileinfo->isDot() and !preg_match('/header|footer/', $fname))  {
+		if (!$fileinfo->isDot() and preg_match('/.php/', $fname) and !preg_match('/header|footer/', $fname))  {
 			$fname = $fileinfo->getFilename();
 			$path = $fileinfo->getPathname();
 			if (preg_match($regex, $fname) || search_keywords($regex, $fname)){
 				//preg_match($regex, file_get_contents($path))){
-					$modules[] = $fname;
+				$modules[] = $fname;
 			}
 		}
 	}
@@ -202,11 +204,13 @@ function print_summary($summary, $fname = ""){
 	$output = json_encode($summary, JSON_PRETTY_PRINT);
 	//print($output."\n");
 	if ($fname != ""){
-		file_put_contents("$fname.json", $output);
+		file_put_contents("$fname", $output);
 	}
 }
 function print_problems_tex($problems, &$summary, $is_solution){
 	global $randseed;
+	global $default_exam_info;
+	global $default_student;
 	include __DIR__.'/../modules/header.php';
 	//dummy student
 	$student = array(
@@ -220,19 +224,20 @@ function print_problems_tex($problems, &$summary, $is_solution){
 	$point_value = 0;
 	foreach($problems as $problem){
 		$report = array("problem"=>$qid, "module"=>$problem, "point_value"=>$point_value);
-		srand(crc32("$randseed.$student_id.$student_name.$problem.$qid"));
-		print_problem($default_exam_info, $qid, $student, $problem, $report, $point_value, $is_solution);
+		srand(crc32("$randseed.{$default_student["ID number"]}.$problem.$qid"));
+		print_problem($default_exam_info, $qid, $default_student, $problem, $report, $point_value, $is_solution);
 		//include __DIR__."/../modules/$problem";
 		$student_report[] = $report;
 		$qid++;
 	}
 	include __DIR__.'/../modules/footer.php';
-	$summary["$student_id:$student_name"] = $student_report;
+	$summary[$default_student['ID number']] = $student_report;
 }
 
 function print_problems($fname, $regex){
 	$summary = array();
-	$problems = select_modules($regex);
+	$used = array();
+	$problems = select_modules($regex, $used);
 	//var_dump($problems);
 	try {
 		ob_start();
